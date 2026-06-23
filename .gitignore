@@ -1,0 +1,20 @@
+# Local/runtime artifacts
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.vercel/
+
+# Heavy or regenerable database artifacts
+*.db
+*.sqlite
+*.sqlite3
+*.parquet
+*.log
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

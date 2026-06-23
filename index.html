@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Oracle SQL and PL/SQL portfolio dashboard by Fityan Hanif using the Olist e-commerce dataset.">
+  <title>Oracle E-Commerce Operations Analytics | Fityan Hanif</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23070906'/%3E%3Cpath d='M17 38c0-11 7-19 15-19s15 8 15 19' fill='none' stroke='%23b7ff57' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='38' r='6' fill='%23b7ff57'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070906;
+      --surface: #0f130d;
+      --surface-2: #151b11;
+      --line: rgba(219, 255, 166, 0.14);
+      --text: #f4f7ed;
+      --muted: #aab49f;
+      --soft: #7f8a75;
+      --accent: #b7ff57;
+      --accent-2: #d9ff99;
+      --danger: #ff7a6b;
+      --warning: #ffc95a;
+      --radius: 28px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 76% 10%, rgba(183, 255, 87, 0.18), transparent 28rem),
+        radial-gradient(circle at 10% 0%, rgba(255, 201, 90, 0.10), transparent 26rem),
+        linear-gradient(180deg, #070906 0%, #0a0d08 42%, #070906 100%);
+      color: var(--text);
+      font-family: Manrope, system-ui, sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.045;
+      z-index: 5;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .nav {
+      position: sticky;
+      top: 16px;
+      z-index: 4;
+      margin: 16px auto 0;
+      width: min(960px, calc(100% - 32px));
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 8px 10px 8px 20px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      background: rgba(9, 12, 8, 0.78);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 70px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .brand { font-weight: 800; letter-spacing: -0.04em; }
+    .nav-links { display: flex; gap: 8px; align-items: center; flex-wrap: nowrap; }
+    .nav-links a {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 12px;
+      border-radius: 999px;
+      transition: color .45s var(--ease), background .45s var(--ease), transform .45s var(--ease);
+      white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.07); transform: translateY(-1px); }
+
+    .hero { min-height: calc(100dvh - 84px); display: grid; align-items: center; padding: 56px 0 72px; }
+    .hero-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 32px; align-items: center; }
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--accent-2);
+      background: rgba(183,255,87,0.07);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+    h1 {
+      margin: 18px 0 18px;
+      font-size: clamp(48px, 7vw, 86px);
+      line-height: 0.95;
+      letter-spacing: -0.075em;
+      max-width: 760px;
+    }
+    .lead {
+      color: var(--muted);
+      max-width: 650px;
+      font-size: clamp(16px, 1.7vw, 20px);
+      margin: 0 0 28px;
+    }
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      border-radius: 999px;
+      padding: 10px 10px 10px 20px;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: transform .45s var(--ease), background .45s var(--ease), border-color .45s var(--ease);
+      min-height: 48px;
+    }
+    .btn.primary { background: var(--accent); color: #12180d; border-color: var(--accent); }
+    .btn.secondary { color: var(--text); background: rgba(255,255,255,0.06); }
+    .btn span:last-child {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.09);
+      transition: transform .45s var(--ease);
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:hover span:last-child { transform: translate(2px, -1px); }
+
+    .hero-card-shell, .shell {
+      padding: 6px;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: calc(var(--radius) + 8px);
+      background: rgba(255,255,255,0.035);
+      box-shadow: 0 28px 90px rgba(0,0,0,0.34);
+    }
+    .hero-card, .core {
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(21,27,17,0.98), rgba(8,11,7,0.98));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .hero-card { padding: 24px; }
+    .metric-orbit { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .metric {
+      min-height: 118px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .metric.big { grid-column: span 2; min-height: 180px; background: linear-gradient(135deg, rgba(183,255,87,0.16), rgba(255,255,255,0.055)); }
+    .label { color: var(--soft); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
+    .value { display: block; margin-top: 10px; font-family: "JetBrains Mono", monospace; font-size: clamp(26px, 4vw, 50px); line-height: 1; letter-spacing: -0.05em; }
+    .hint { color: var(--muted); font-size: 13px; margin-top: 12px; }
+
+    section { padding: 76px 0; }
+    .section-head { max-width: 780px; margin-bottom: 28px; }
+    h2 { margin: 0; font-size: clamp(34px, 5vw, 58px); line-height: 1; letter-spacing: -0.06em; }
+    .section-head p { color: var(--muted); font-size: 17px; margin: 16px 0 0; max-width: 700px; }
+
+    .kpi-grid { display: grid; grid-template-columns: 1.2fr 0.8fr 1fr 1fr; gap: 14px; }
+    .kpi { padding: 22px; border-radius: 24px; background: rgba(255,255,255,0.052); border: 1px solid rgba(255,255,255,0.085); min-height: 146px; }
+    .kpi strong { display: block; font-family: "JetBrains Mono", monospace; font-size: clamp(26px, 3.8vw, 44px); letter-spacing: -0.06em; margin-top: 14px; }
+    .kpi p { color: var(--muted); margin: 12px 0 0; font-size: 13px; }
+    .kpi.accent { background: linear-gradient(135deg, rgba(183,255,87,0.18), rgba(255,255,255,0.06)); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
+    .chart-card { padding: 22px; min-height: 400px; }
+    .chart-card h3, .insight h3, .risk-card h3 { margin: 0 0 12px; font-size: 21px; letter-spacing: -0.03em; }
+    .chart-wrap { height: 310px; }
+    canvas { width: 100% !important; height: 100% !important; }
+
+    .insight-grid { display: grid; grid-template-columns: 1.1fr 0.9fr 0.9fr; gap: 16px; }
+    .insight { padding: 24px; border-radius: 26px; background: rgba(255,255,255,0.052); border: 1px solid rgba(255,255,255,0.085); }
+    .insight.feature { grid-row: span 2; background: linear-gradient(145deg, rgba(183,255,87,0.15), rgba(255,255,255,0.05)); }
+    .insight p { color: var(--muted); margin: 0; }
+    .delta { display: block; margin: 20px 0; font-family: "JetBrains Mono", monospace; font-size: 46px; letter-spacing: -0.07em; color: var(--accent); }
+
+    .table-like { display: grid; gap: 10px; }
+    .row {
+      display: grid;
+      grid-template-columns: 74px 1fr 110px;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.065);
+    }
+    .row b { font-family: "JetBrains Mono", monospace; }
+    .tag { width: fit-content; border-radius: 999px; padding: 6px 10px; font-size: 12px; font-weight: 800; background: rgba(183,255,87,0.12); color: var(--accent-2); }
+    .tag.warn { color: #ffe1a3; background: rgba(255,201,90,0.12); }
+    .tag.danger { color: #ffc2ba; background: rgba(255,122,107,0.13); }
+
+    .objects { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .object-card { padding: 22px; border-radius: 24px; background: rgba(255,255,255,0.052); border: 1px solid rgba(255,255,255,0.085); }
+    .object-card strong { display: block; font-family: "JetBrains Mono", monospace; font-size: 36px; letter-spacing: -0.05em; margin: 12px 0 4px; }
+
+    .footer { padding: 48px 0 64px; color: var(--muted); }
+    .footer-line { display: flex; justify-content: space-between; gap: 16px; border-top: 1px solid var(--line); padding-top: 24px; flex-wrap: wrap; }
+
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .nav { position: static; border-radius: 24px; align-items: flex-start; }
+      .nav-links { display: none; }
+      .hero-grid, .grid-2, .insight-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .objects { grid-template-columns: 1fr 1fr; }
+      .hero { min-height: auto; padding-top: 44px; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 24px, 1180px); }
+      h1 { font-size: 46px; }
+      .kpi-grid, .objects, .metric-orbit { grid-template-columns: 1fr; }
+      .metric.big { grid-column: span 1; }
+      .row { grid-template-columns: 1fr; }
+      section { padding: 54px 0; }
+      .chart-card { min-height: 360px; }
+      .chart-wrap { height: 270px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Primary navigation">
+    <a href="#top" class="brand">Blazord Oracle Analytics</a>
+    <div class="nav-links">
+      <a href="#findings">Findings</a>
+      <a href="#delivery">Delivery</a>
+      <a href="#seller">Seller Risk</a>
+      <a href="#database">Oracle Layer</a>
+      <a href="https://github.com/fityanhanif/oracle-ecommerce-analytics" id="repoLink">GitHub</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <header class="hero wrap">
+      <div class="hero-grid">
+        <div class="reveal">
+          <span class="eyebrow">Oracle SQL portfolio project</span>
+          <h1>Marketplace ops, modeled in Oracle.</h1>
+          <p class="lead">1.5M+ public e-commerce rows loaded into Oracle, validated with PL/SQL, and translated into executive analytics.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="#findings"><span>View findings</span><span aria-hidden="true">↗</span></a>
+            <a class="btn secondary" href="./README.md"><span>Read README</span><span aria-hidden="true">↘</span></a>
+          </div>
+        </div>
+        <div class="hero-card-shell reveal">
+          <div class="hero-card">
+            <div class="metric-orbit">
+              <div class="metric big">
+                <span class="label">Strongest signal</span>
+                <span class="value">54.02%</span>
+                <div class="hint">Low-review rate for late deliveries, compared with 11.38% for orders that were not late.</div>
+              </div>
+              <div class="metric">
+                <span class="label">Orders</span>
+                <span class="value">99,441</span>
+                <div class="hint">Loaded to Oracle.</div>
+              </div>
+              <div class="metric">
+                <span class="label">Views</span>
+                <span class="value">9</span>
+                <div class="hint">BI-ready SQL marts.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="findings" class="wrap reveal">
+      <div class="section-head">
+        <h2>What the Oracle views found.</h2>
+        <p>The dashboard uses verified query output from Oracle, not mock front-end data.</p>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi accent"><span class="label">Item revenue</span><strong>13.59M</strong><p>Revenue from order item price values.</p></div>
+        <div class="kpi"><span class="label">Avg review</span><strong>4.09</strong><p>Overall customer review score.</p></div>
+        <div class="kpi"><span class="label">Late rate</span><strong>8.11%</strong><p>Marketplace-wide late delivery rate.</p></div>
+        <div class="kpi"><span class="label">Products</span><strong>32,951</strong><p>Distinct products in the catalog.</p></div>
+      </div>
+    </section>
+
+    <section id="delivery" class="wrap reveal">
+      <div class="grid-2">
+        <div class="shell"><div class="core chart-card">
+          <h3>Delivery delay vs review score</h3>
+          <div class="chart-wrap"><canvas id="reviewChart" aria-label="Review score comparison chart"></canvas></div>
+        </div></div>
+        <div class="shell"><div class="core chart-card">
+          <h3>Worst late-delivery states</h3>
+          <div class="chart-wrap"><canvas id="stateChart" aria-label="Late delivery by state chart"></canvas></div>
+        </div></div>
+      </div>
+    </section>
+
+    <section class="wrap reveal">
+      <div class="insight-grid">
+        <article class="insight feature">
+          <span class="label">Business interpretation</span>
+          <span class="delta">4.75x</span>
+          <h3>Late orders are far more likely to receive poor reviews.</h3>
+          <p>The low-review rate rises from 11.38% to 54.02% when delivery is late. This makes logistics reliability the clearest first lever for customer satisfaction.</p>
+        </article>
+        <article class="insight">
+          <h3>Revenue needs quality controls.</h3>
+          <p>High-revenue sellers can still be operationally risky. Seller scorecards should combine revenue, late rate, and average review score.</p>
+        </article>
+        <article class="insight">
+          <h3>Repeat customers are scarce but valuable.</h3>
+          <p>Repeat customers represent a smaller group, but their average monetary value is nearly double the one-time customer group.</p>
+        </article>
+        <article class="insight">
+          <h3>Credit card dominates payment value.</h3>
+          <p>Credit card payments account for the largest payment value and average 3.51 installments.</p>
+        </article>
+        <article class="insight">
+          <h3>Category focus is clear.</h3>
+          <p>Health and beauty, watches and gifts, home goods, sports, and electronics accessories drive top category revenue.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="seller" class="wrap reveal">
+      <div class="section-head">
+        <h2>Seller revenue does not equal seller health.</h2>
+        <p>The Oracle seller scorecard flags sellers that generate strong revenue but carry delivery or review risk.</p>
+      </div>
+      <div class="grid-2">
+        <div class="shell"><div class="core chart-card">
+          <h3>High-revenue seller scorecard</h3>
+          <div class="chart-wrap"><canvas id="sellerChart" aria-label="Seller risk chart"></canvas></div>
+        </div></div>
+        <div class="table-like">
+          <div class="row"><b>4869...</b><span>229,472.63 revenue, 11.59% late rate</span><span class="tag warn">WATCHLIST</span></div>
+          <div class="row"><b>7c67...</b><span>189,417.67 revenue, 3.35 avg review</span><span class="tag danger">HIGH RISK</span></div>
+          <div class="row"><b>4a3c...</b><span>202,999.12 revenue, 3.80 avg review</span><span class="tag warn">WATCHLIST</span></div>
+          <div class="row"><b>5324...</b><span>222,776.05 revenue, 4.08 avg review</span><span class="tag">HEALTHY</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="database" class="wrap reveal">
+      <div class="section-head">
+        <h2>Oracle layer, not just a chart page.</h2>
+        <p>The project includes load scripts, constraints, indexes, views, PL/SQL, documentation, and verified query output.</p>
+      </div>
+      <div class="objects">
+        <div class="object-card"><span class="label">Tables</span><strong>9</strong><p class="hint">Raw Olist staging layer.</p></div>
+        <div class="object-card"><span class="label">Views</span><strong>9</strong><p class="hint">Dashboard-ready SQL marts.</p></div>
+        <div class="object-card"><span class="label">Indexes</span><strong>17</strong><p class="hint">Join and filter performance support.</p></div>
+        <div class="object-card"><span class="label">PL/SQL</span><strong>1</strong><p class="hint">Validation package and package body.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer wrap">
+    <div class="footer-line">
+      <span>Fityan Hanif / Blazord</span>
+      <span>Oracle Database 23ai Free, SQL views, PL/SQL, Chart.js</span>
+    </div>
+  </footer>
+
+  <script>
+    const colors = {
+      text: '#f4f7ed',
+      muted: '#8f9a87',
+      accent: '#b7ff57',
+      accent2: '#d9ff99',
+      danger: '#ff7a6b',
+      warning: '#ffc95a',
+      grid: 'rgba(255,255,255,0.08)'
+    };
+
+    Chart.defaults.color = colors.muted;
+    Chart.defaults.font.family = 'Manrope, system-ui, sans-serif';
+    Chart.defaults.plugins.legend.labels.boxWidth = 10;
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+    new Chart(document.getElementById('reviewChart'), {
+      type: 'bar',
+      data: {
+        labels: ['On time / not late', 'Late'],
+        datasets: [
+          { label: 'Avg review score', data: [4.21, 2.57], backgroundColor: [colors.accent, colors.danger], borderRadius: 14, yAxisID: 'score' },
+          { label: 'Low-review rate %', data: [11.38, 54.02], type: 'line', borderColor: colors.warning, backgroundColor: colors.warning, tension: 0.35, pointRadius: 5, yAxisID: 'rate' }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          score: { beginAtZero: true, max: 5, grid: { color: colors.grid }, ticks: { color: colors.muted } },
+          rate: { beginAtZero: true, position: 'right', max: 60, grid: { display: false }, ticks: { color: colors.muted } },
+          x: { grid: { display: false }, ticks: { color: colors.text } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('stateChart'), {
+      type: 'bar',
+      data: {
+        labels: ['AL','MA','PI','CE','SE','BA','RJ','TO','PA','ES'],
+        datasets: [{ label: 'Late delivery rate %', data: [23.93,19.67,15.97,15.32,15.22,14.04,13.47,12.77,12.37,12.23], backgroundColor: colors.accent, borderRadius: 12 }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, grid: { color: colors.grid }, ticks: { color: colors.muted } },
+          x: { grid: { display: false }, ticks: { color: colors.text } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('sellerChart'), {
+      type: 'scatter',
+      data: {
+        datasets: [
+          { label: 'Healthy', data: [{x:222.8,y:4.08},{x:176.4,y:4.21},{x:162.7,y:4.07},{x:142.3,y:4.23}], backgroundColor: colors.accent },
+          { label: 'Watchlist', data: [{x:229.5,y:4.12},{x:203.0,y:3.80},{x:194.0,y:4.34},{x:140.5,y:3.85}], backgroundColor: colors.warning },
+          { label: 'High risk', data: [{x:189.4,y:3.35}], backgroundColor: colors.danger }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { title: { display: true, text: 'Item revenue, thousands', color: colors.muted }, grid: { color: colors.grid }, ticks: { color: colors.muted } },
+          y: { min: 3, max: 4.6, title: { display: true, text: 'Average review score', color: colors.muted }, grid: { color: colors.grid }, ticks: { color: colors.muted } }
+        }
+      }
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+=== Executive Summary ===
+
+TOTAL_ORDERS TOTAL_CUSTOMERS TOTAL_SELLERS TOTAL_PRODUCTS TOTAL_ITEM_REVENUE TOTAL_FREIGHT_VALUE AVG_REVIEW_SCORE LATE_DELIVERY_RATE_PCT
+------------ --------------- ------------- -------------- ------------------ ------------------- ---------------- ----------------------
+       99441	       99441	      3095	    32951	  13591643.7	      2251909.54	     4.09		    8.11
+
+=== Monthly Sales Trend: Top 12 Months ===
+
+SALES_MON ORDER_COUNT ITEM_COUNT ITEM_REVENUE FREIGHT_REVENUE TOTAL_REVENUE AVG_ORDER_VALUE
+--------- ----------- ---------- ------------ --------------- ------------- ---------------
+01-SEP-16	    3	       6       267.36		87.39	     354.75	     118.25
+01-OCT-16	  308	     363     49507.66	      7301.18	   56808.84	     184.44
+01-DEC-16	    1	       1	 10.9		 8.72	      19.62	      19.62
+01-JAN-17	  789	     955    120312.87	     16875.62	  137188.49	     173.88
+01-FEB-17	 1733	    1951    247303.02	      38977.6	  286280.62	     165.19
+01-MAR-17	 2641	    3000     374344.3	     57704.29	  432048.59	     163.59
+01-APR-17	 2391	    2684    359927.23	     52495.01	  412422.24	     172.49
+01-MAY-17	 3660	    4136    506071.14	     80119.81	  586190.95	     160.16
+01-JUN-17	 3217	    3583     433038.6	     69924.44	  502963.04	     156.35
+01-JUL-17	 3969	    4519    498031.48	     86940.14	  584971.62	     147.39
+01-AUG-17	 4293	    4910    573971.68	     94232.92	   668204.6	     155.65
+01-SEP-17	 4243	    4831    624401.69	     95997.22	  720398.91	     169.79
+
+12 rows selected.
+
+=== Top 10 Categories by Revenue ===
+
+CATEGORY_NAME			    ORDER_COUNT ITEM_COUNT ITEM_REVENUE FREIGHT_REVENUE AVG_REVIEW_SCORE REVENUE_RANK
+----------------------------------- ----------- ---------- ------------ --------------- ---------------- ------------
+beleza_saude				   8836       9727   1263138.54       183483.54 	    4.14	    1
+relogios_presentes			   5624       6001   1206075.33       100686.07 	    4.02	    2
+cama_mesa_banho 			   9417      11270   1050936.61        207252.9 	     3.9	    3
+esporte_lazer				   7720       8700    993656.51       169673.47 	    4.11	    4
+informatica_acessorios			   6689       7894    919640.54       148429.94 	    3.93	    5
+moveis_decoracao			   6449       8415    736282.47       174400.58 	     3.9	    6
+cool_stuff				   3632       3806    637258.51        84234.39 	    4.15	    7
+utilidades_domesticas			   5884       6989     634542.6       146627.43 	    4.06	    8
+automotivo				   3897       4256     594363.1        93011.09 	    4.07	    9
+ferramentas_jardim			   3518       4361    486432.45        99214.09 	    4.04	   10
+
+10 rows selected.
+
+=== State Delivery Performance: Worst Late Delivery Rate ===
+
+CUSTOMER_STATE	ORDER_COUNT DELIVERED_ORDER_COUNT AVG_DELIVERY_DAYS LATE_ORDER_COUNT LATE_DELIVERY_RATE_PCT
+--------------- ----------- --------------------- ----------------- ---------------- ----------------------
+AL			413		      397	      24.54		  95		      23.93
+MA			747		      717	      21.57		 141		      19.67
+PI			495		      476	      19.46		  76		      15.97
+CE		       1336		     1279	      21.27		 196		      15.32
+SE			350		      335	      21.52		  51		      15.22
+BA		       3380		     3256	      19.34		 457		      14.04
+RJ		      12852		    12353	      15.31		1664		      13.47
+TO			280		      274	      17.66		  35		      12.77
+PA			975		      946	      23.77		 117		      12.37
+ES		       2033		     1995	      15.79		 244		      12.23
+
+10 rows selected.
+
+=== Seller Scorecard: High Revenue Sellers with Risk Label ===
+
+SELLER_ID			    SELLE ORDER_COUNT ITEM_REVENUE AVG_DELIVERY_DAYS LATE_DELIVERY_RATE_PCT AVG_REVIEW_SCORE SELLER_RI
+----------------------------------- ----- ----------- ------------ ----------------- ---------------------- ---------------- ---------
+4869f7a5dfa277a7dca6462dcf3b52b2    SP		 1132	 229472.63	       15.01		      11.59		4.12 WATCHLIST
+53243585a1d6dc2643021fd1853d8905    BA		  358	 222776.05	       13.37			  4		4.08 HEALTHY
+4a3ca9315b744ce9f8e9374361493884    SP		 1806	 202999.12		14.4		      10.96		 3.8 WATCHLIST
+fa1c13f2614d7b5c4749cbc52fecda94    SP		  585	 194042.03	       13.34		      10.19		4.34 WATCHLIST
+7c67e1448b00f6e969d365cea6b010ab    SP		  982	 189417.67	       22.39		       9.59		3.35 HIGH_RISK
+7e93a43ef30c4f03f38b393420bc753a    SP		  336	 176431.87	       11.34		       5.59		4.21 HEALTHY
+da8622b14eb17ae2831f4ac5b9dab84a    SP		 1314	 162723.37	       11.18		       7.26		4.07 HEALTHY
+7a67c85e85bb2ce8582c35f2203ad736    SP		 1160	 142325.49	       11.15		       5.87		4.23 HEALTHY
+1025f0e2d44d7041d6cf58b6550e0bfa    SP		  915	 140513.14	       12.02		       9.14		3.85 WATCHLIST
+955fee9216a65b617aa5c0531780ce60    SP		 1287	  135241.7	       10.74		       8.07		4.05 HEALTHY
+46dc3b2cc0980fb8ec44634e21d2718e    RJ		  521	 128111.19		11.8			6.3		4.18 HEALTHY
+6560211a19b47992c3666cc44a7e94c0    SP		 1854	 123585.82		9.55		       6.24		3.91 WATCHLIST
+620c87c171fb2a6dd6e8bb4dec959fc6    RJ		  740	  115283.9	       12.89		       9.53		4.22 HEALTHY
+7d13fca15225358621be4086e1eb0964    SP		  565	 113628.97	       15.69		      11.91		   4 WATCHLIST
+5dceca129747e92ff8ef7a997dc4f8ca    SP		  325	 112155.53	       11.27		       5.83		3.99 WATCHLIST
+1f50f920176fa81dab994f9023523100    SP		 1404	 107431.41	       15.57		       9.51		3.98 WATCHLIST
+cc419e0650a3c5ba77189a1882b7556a    SP		 1706	 106555.98	       11.57		       6.03		4.07 HEALTHY
+a1043bafd471dff536d0c462352beb48    MG		  718	 101901.16	       13.59		       5.59		4.19 HEALTHY
+3d871de0142ce09b7081e2b9d1733cb1    SP		 1080	   94963.2	       13.42		       5.92		4.11 HEALTHY
+edb1ef5e36e0c8cd84eb3c9b003e486d    RJ		  166	  79284.55	       11.71		       7.47		4.43 HEALTHY
+
+20 rows selected.
+
+=== Customer RFM Proxy: Repeat Customers ===
+
+CUSTOMER CUSTOMER_COUNT AVG_FREQUENCY AVG_MONETARY_VALUE
+-------- -------------- ------------- ------------------
+one_time	  92507 	    1		  161.49
+repeat		   2913 	 2.11		  310.49
+
+=== Payment Behavior ===
+
+PAYMENT_TYPE	     PAYMENT_ROWS ORDER_COUNT TOTAL_PAYMENT_VALUE AVG_PAYMENT_VALUE AVG_INSTALLMENTS
+-------------------- ------------ ----------- ------------------- ----------------- ----------------
+credit_card		    76795	76505	       12542084.2	     163.32		3.51
+boleto			    19784	19784	       2869361.27	     145.03		   1
+voucher 		     5775	 3866		379436.87	       65.7		   1
+debit_card		     1529	 1528		217989.79	     142.57		   1
+not_defined			3	    3			0		  0		   1
+
+=== Delivery Delay vs Review Score ===
+
+DELIVERY_GROUP		     ORDER_COUNT AVG_DELIVERY_DAYS AVG_REVIEW_SCORE LOW_REVIEW_RATE_PCT
+---------------------------- ----------- ----------------- ---------------- -------------------
+On time / not delivered late	   91614	     10.89	       4.21		  11.38
+Late				    7827	     31.53	       2.57		  54.02
+
