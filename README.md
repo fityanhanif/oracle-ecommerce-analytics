@@ -6,7 +6,8 @@ Oracle SQL and PL/SQL portfolio project using the Olist Brazilian E-Commerce pub
 **Role focus:** Data Engineering, Data Analysis, Business Intelligence  
 **Database:** Oracle Database 23ai Free  
 **Schema:** `BLAZORD_OLIST`  
-**Live dashboard:** _Added after Vercel deployment_  
+**Live dashboard:** https://oracle-ecommerce-analytics.vercel.app  
+**GitHub repository:** https://github.com/fityanhanif/oracle-ecommerce-analytics  
 
 ## What this project proves
 
