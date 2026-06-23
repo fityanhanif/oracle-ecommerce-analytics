@@ -1,0 +1,6 @@
+week_start,database_name,review_area,metric,status,finding,next_action,owner
+2026-06-17,example_db,table_growth,largest_table_size,OK,orders_fact reached 4.2 GB,Monitor weekly growth trend,DB Support
+2026-06-17,example_db,index_usage,unused_large_indexes,REVIEW,2 large indexes have zero scans,Validate before dropping in non-production,DB Support
+2026-06-17,example_db,sequential_scans,high_seq_scan_tables,REVIEW,3 large reporting tables show heavy sequential scans,Check filters and candidate indexes,Data Analyst
+2026-06-17,example_db,data_quality,row_count_variance,OK,Order mart variance under 1 percent,Continue daily row-count checks,Reporting
+2026-06-17,example_db,reporting_sla,late_refresh_count,OK,0 late refresh events,No action needed,Reporting

@@ -9,6 +9,20 @@ Oracle SQL and PL/SQL portfolio project using the Olist Brazilian E-Commerce pub
 **Live dashboard:** https://oracle-ecommerce-analytics.vercel.app  
 **GitHub repository:** https://github.com/fityanhanif/oracle-ecommerce-analytics  
 
+## Job description fit
+
+This repository is packaged for analyst and database-support roles that ask for strong SQL, Oracle experience, reporting, validation, and basic PostgreSQL monitoring.
+
+| Job requirement | Project evidence |
+|---|---|
+| Strong SQL | Oracle analytics views, business queries, PostgreSQL monitoring queries |
+| Oracle preferred | Oracle Database 23ai Free schema, constraints, indexes, views, and PL/SQL validation |
+| Data extraction | Python CSV loader into Oracle staging tables |
+| Reporting support | Static dashboard, executive metrics, findings docs, CSV-ready monitoring templates |
+| Data validation | Oracle row-count validation and PostgreSQL freshness / row-count check templates |
+| PostgreSQL basics | `postgres_monitoring/` folder with operational monitoring SQL examples |
+| Routine database monitoring | Daily, weekly, and monthly report templates for database health review |
+
 ## What this project proves
 
 This is not a notebook-only project. The work is centered on Oracle as a real database layer:
@@ -19,6 +33,7 @@ This is not a notebook-only project. The work is centered on Oracle as a real da
 - Created 9 SQL views for sales, seller, delivery, payment, review, and customer analysis.
 - Built a PL/SQL validation package to check source load quality.
 - Produced a static dashboard from verified Oracle query results.
+- Added a PostgreSQL basic monitoring add-on for database support roles that require table-size checks, freshness checks, active sessions, blocking sessions, slow-query review, index usage, and reporting cadence templates.
 
 ## Key findings
 
@@ -107,6 +122,7 @@ Verified Oracle object status:
 | Python | `oracledb`, CSV loader | Repeatable ingestion from raw CSV into Oracle |
 | Frontend | Static HTML, CSS, JavaScript, Chart.js | Free hosting, fast load, simple deployment to Vercel |
 | Documentation | Markdown | Recruiter-readable methodology, limitations, and findings |
+| PostgreSQL add-on | Catalog SQL, `pg_stat_activity`, `pg_stat_user_tables`, report templates | Shows transferable database monitoring basics |
 
 ## Repository structure
 
@@ -127,6 +143,12 @@ oracle-ecommerce-analytics/
 │   ├── 06_analysis_output.txt
 │   ├── 06_findings.md
 │   └── cv_portfolio_summary.md
+├── postgres_monitoring/              # PostgreSQL monitoring add-on for DB support roles
+│   ├── README.md
+│   ├── basic_monitoring_queries.sql
+│   ├── daily_report_template.csv
+│   ├── weekly_report_template.csv
+│   └── monthly_report_template.csv
 ├── scripts/
 │   └── load_olist_to_oracle.py
 └── sql/
@@ -200,6 +222,19 @@ Open:
 http://localhost:8000
 ```
 
+### 7. Review the PostgreSQL monitoring add-on
+
+The PostgreSQL examples are read-only monitoring templates. They are not required for the Oracle dashboard, but they help align the project with database-support job descriptions.
+
+```text
+postgres_monitoring/basic_monitoring_queries.sql
+postgres_monitoring/daily_report_template.csv
+postgres_monitoring/weekly_report_template.csv
+postgres_monitoring/monthly_report_template.csv
+```
+
+Use these examples to discuss table size monitoring, active sessions, blocking sessions, slow-query review, index usage, row-count checks, and data freshness checks.
+
 ## Skills demonstrated
 
 ### Data Engineering
@@ -216,7 +251,7 @@ Translated Oracle query outputs into executive KPIs, risk labels, dashboard sect
 
 ### Database Development
 
-Used Oracle Database 23ai Free, SQL constraints, indexes, views, and PL/SQL package logic to show database skills beyond basic SELECT statements.
+Used Oracle Database 23ai Free, SQL constraints, indexes, views, and PL/SQL package logic to show database skills beyond basic SELECT statements. Added PostgreSQL monitoring examples for table size, row-count, freshness, sessions, blocking queries, slow queries, and index usage.
 
 ## Limitations
 
@@ -225,10 +260,11 @@ Used Oracle Database 23ai Free, SQL constraints, indexes, views, and PL/SQL pack
 - Review text is mostly Portuguese. This version focuses on Oracle operations analytics, not NLP sentiment analysis.
 - Customer repeat behavior is a proxy because the public dataset uses anonymized customer identifiers.
 - The dashboard is static by design. It uses verified Oracle outputs, not a live database connection.
+- The PostgreSQL add-on is a portable monitoring example, not evidence from a connected production PostgreSQL server.
 
 ## Interview summary
 
-> I built an Oracle Database analytics project using 1.5M+ public e-commerce rows. I created staging tables, constraints, indexes, SQL views, and a PL/SQL validation package, then converted the Oracle outputs into a BI-style dashboard. The strongest insight is that late delivery is strongly associated with poor customer experience: late orders average 2.57 review score and 54.02% low-review rate, compared with 4.21 and 11.38% for non-late orders.
+> I built an Oracle Database analytics project using 1.5M+ public e-commerce rows. I created staging tables, constraints, indexes, SQL views, and a PL/SQL validation package, then converted the Oracle outputs into a BI-style dashboard. I also added PostgreSQL monitoring examples for database-support requirements such as table size, freshness, active sessions, blocking sessions, slow queries, and reporting cadence. The strongest business insight is that late orders average 2.57 review score and 54.02% low-review rate, compared with 4.21 and 11.38% for non-late orders.
 
 ## Author
 

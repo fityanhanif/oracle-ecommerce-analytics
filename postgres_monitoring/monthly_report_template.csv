@@ -1,0 +1,6 @@
+month,database_name,summary_area,status,key_metric,business_impact,recommendation,owner
+2026-06,example_db,capacity,OK,12 GB database size,Storage still healthy,Continue monthly capacity review,DB Support
+2026-06,example_db,performance,REVIEW,3 recurring slow query patterns,Reporting users may see delay during peak hours,Optimize joins and review indexes,Data Analyst
+2026-06,example_db,reliability,OK,0 critical blocking incidents,No major disruption,Keep daily blocking-session check,DB Support
+2026-06,example_db,data_freshness,OK,99.2 percent reports within SLA,Stakeholder reports remain reliable,Keep SLA dashboard updated,Reporting
+2026-06,example_db,data_quality,OK,0 critical row-count mismatches,Monthly report can be trusted,Archive validation evidence,Reporting

@@ -1,0 +1,6 @@
+date,database_name,check_name,status,value,threshold,owner,notes
+2026-06-23,example_db,database_size,OK,12 GB,<80 percent disk usage,DB Support,Review growth if daily increase exceeds 10 percent
+2026-06-23,example_db,data_freshness_orders,OK,15 minutes,<60 minutes,Reporting,Latest order mart refresh is within SLA
+2026-06-23,example_db,active_connections,OK,34,<80 percent max_connections,DB Support,No connection spike detected
+2026-06-23,example_db,blocking_sessions,OK,0,0,DB Support,Investigate immediately if blocked sessions appear
+2026-06-23,example_db,slow_queries,REVIEW,3,0 critical queries,Data Analyst,Check pg_stat_statements top query list
